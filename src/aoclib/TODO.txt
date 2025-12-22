@@ -1,0 +1,6 @@
+make parsing Dynamic work with recursive somehow
+implement complex arithmetic (mul/divide) for Point2
+  - type check arguments; Point2 * (a tuple) is funky
+  - even worse: Point2 + (0, 1) WAI, but (0, 1) + Point2 is nonsense
+  - maybe add mod operator?
+add test suite
