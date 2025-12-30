@@ -26,6 +26,23 @@ def ext_gcd(a, b):
     else:
         return (a, 1, 0)
 
+def crt(a, m, b, n):
+    """Combine equations x = a mod m and x = b mod n into a single equation.
+
+    Always possible if m, n are coprime. Otherwise, (a-b) divisible by
+    gcd(m, n) is necessary and sufficient.
+
+    Returns (c, l) s.t. x = c mod l (also, l = lcm(m, n))."""
+
+    g, u, v = ext_gcd(m, n)
+
+    if a % g != b % g: return None
+    m, n = m // g, n // g
+    l = m*n*g
+    c = (a*v*n + b*u*m) % l
+
+    return (c, l)
+
 # Miller-Rabin probabilistic primality check. This works for values in 64 bits.
 _MR_WITS = (2, 325, 9375, 28178, 450775, 9780504, 1795265022)
 def is_prime_mr(n):
