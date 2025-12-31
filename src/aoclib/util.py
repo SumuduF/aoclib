@@ -1,10 +1,12 @@
 import argparse
 import sys
 from itertools import groupby
+from inspect import signature
 
 def run_solution(solution):
     """Basic AoC main: takes care of getting input and printing the answer."""
     arg_parser = argparse.ArgumentParser()
+    arg_parser.add_argument("--part", "-p", type=int)
     arg_parser.add_argument("filename", nargs="?")
     args = arg_parser.parse_args()
 
@@ -13,7 +15,12 @@ def run_solution(solution):
     else:
         input_lines = _read_rstripped_lines(sys.stdin)
 
-    answer = solution(input_lines)
+    if len(signature(solution).parameters) > 1:
+        answer = solution(input_lines, args.part)
+    else:
+        if args.part is not None:
+            sys.stderr.write(f"WARNING: ignoring --part={args.part}\n")
+        answer = solution(input_lines)
 
     print(answer)
 
